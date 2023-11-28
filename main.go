@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-
+	"os"
 	"github.com/go-redis/redis/v8"
 	"github.com/gocolly/colly"
 )
@@ -11,8 +11,8 @@ import (
 func main() {
 	ctx := context.Background()
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "REDIS_URL",  // replace with your Redis server address and port without "redis://default:"
-		Password: "REDIS_PASSWORD", // replace with your password if any
+		Addr:     os.Getenv("REDIS_URL"),  // replace with your Redis server address and port without "redis://default:"
+		Password: os.Getenv("REDIS_PASSWORD"), // replace with your password if any
 		DB:       0,                                  // use default DB
 	})
   
@@ -58,7 +58,7 @@ func main() {
 		fmt.Println("Visiting", r.URL.String())
 	})
 
-	c.Visit("INSERT_URL_HERE") // add a URL to crawl here.
+	c.Visit("https://wikipedia.org") // add a URL to crawl here.
 
 	c.Wait()
 }
